@@ -1,0 +1,31 @@
+//api请求语法
+syntax = "v1"
+
+//info(
+//    author :"mikael"
+//    date: "2022-03-20"
+//    desc:  "api语法示例"go
+//)
+//goctl api go -api user.api -dir ../  --style=goZero
+info (
+	author: "keson.an"
+	date:   "2022 年 12 月 26 日"
+	esc:    "api语法示例"
+)
+
+type (
+	UserInfoReq {
+		UserId int64 `json:"userId"`
+	}
+	UserInfoResp {
+		UserId   int64  `json:"userIdgo"`
+		NickName string `json:"nickname"`
+	}
+)
+
+service user-api {
+	@doc "获取用户信息"
+	@handler userInfo
+	post /user/info (UserInfoReq) returns (UserInfoResp)
+}
+
