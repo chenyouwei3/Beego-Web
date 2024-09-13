@@ -1,12 +1,14 @@
 package models
 
 import (
-	"github.com/beego/beego/v2/adapter/orm"
+	"errors"
+	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/logs"
 	"time"
 )
 
-func NewAccount() *Account {
-	return &Account{}
+func init() {
+	orm.RegisterModel(new(Account))
 }
 
 type Account struct {
@@ -27,9 +29,16 @@ type Account struct {
 	Sex          bool
 }
 
-func (a *Account) Add(o orm.Ormer) {
-	accout:=NewAccount()
-	err:=
+func (a *Account) Add(account *Account) (int64, error) {
+	o := orm.NewOrm()
+	id, err := o.Insert(account)
+	if err != nil {
+		logs.Warning("Create Account Fail: ", err)
+		return 0, errors.New("插入失败")
+	} else {
+		logs.Debug("Create Account success")
+		return id, nil
+	}
 }
 
 func (a *Account) Deleted() {
